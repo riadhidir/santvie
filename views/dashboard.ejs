@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head')%>
+
+  <body>
+    <div class="sideNav">
+      <button id="sb_toggle"><i class="fa-solid fa-arrow-left"></i></button>
+
+      <div class="logo">
+        <h1>Santévie</h1>
+      </div>
+      <div class="nav-links">
+        <div class="link">
+          <a href="/dashboard"><i class="fa-solid fa-chart-pie fa-fw fa-2xl"></i><span> Dashboard</span></a>
+        </div>
+        <div class="link">
+          <a href="/patients" class="activelink"><i class="fa-solid fa-users fa-fw fa-2xl"></i>
+            <span>Patients</span></a>
+        </div>
+        <div class="link">
+          <a href="/appointments"><i class="fa-regular fa-calendar-days fa-fw fa-2xl"></i><span> Rendez_vous</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="view-frame3 ">
+      <div class="row gap-4 mx-5">
+
+        <div class=" card border-secondary mb-3 text-center aling-items-center" style="max-width: 18rem; height: 100px">
+          <div class="card-body text-secondary d-flex align-items-center">
+            <h3>
+              <i class="fa-solid fa-users fa-fw fa-lg"></i> <span id="patients">patients</span>
+            </h3>
+          </div>
+        </div>
+        <div class=" card border-secondary mb-3 text-center aling-items-center" style="max-width: 18rem; height: 100px">
+          <div class="card-body text-secondary d-flex align-items-center">
+            <h3>
+              <i class="fa-regular fa-calendar-days fa-fw fa-2xl"></i> <span id="rdv"> <%= results.count+" " %> rdv</span>
+            </h3>
+          </div>
+        </div>
+    </div>
+    <div class="row  mx-5">
+
+
+        <div style="width: 50%"><canvas id="acquisitions"></canvas></div>
+        <div style="width: 50%"><canvas id="acquisitions2"></canvas></div>
+
+   
+</div>
+   
+      
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+      integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0%22%3E"></script>
+
+    <script src="https://kit.fontawesome.com/c501080d7e.js" crossorigin="anonymous"></script>
+    <script>
+      let patient_number = 0;
+      let females = 0;
+      let males = 0;
+      let response = fetch("/patients/count/sex")
+        .then((response) => response.json())
+        .then((data) => {
+          males = data[0].sex;
+          females = data[1].sex;
+          patient_number = males + females;
+          document.getElementById('patients').textContent = patient_number + " " + document.getElementById('patients').textContent
+          return [females, males];
+        })
+        .then((arr) => {
+          const data = {
+            labels: [
+              "Femme",
+              "Homme",
+              // 'Yellow'
+            ],
+            datasets: [
+              {
+                label: "My First Dataset",
+                data: [arr[0], arr[1]],
+                backgroundColor: [
+                  "rgb(255, 99, 132)",
+                  "rgb(54, 162, 235)",
+                  // 'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4,
+              },
+            ],
+          };
+
+          const ctx = document.getElementById("acquisitions").getContext("2d");
+          new Chart(ctx, {
+            type: "pie",
+            data: data,
+          });
+        });
+
+
+
+
+        const labels = [1,2,3,4,5,6,7];
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'My First Dataset',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    fill: false,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1
+  }]
+};
+
+          const ctx2 = document.getElementById("acquisitions2").getContext("2d");
+          new Chart(ctx2, {
+            type: "line",
+            data: data,
+          });
+    </script>
+  </body>
+
+</html>

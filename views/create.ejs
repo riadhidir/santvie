@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+      <%- include('partials/head')%>
+    
+  
+<body>
+    <form action="/patients" method="POST">
+        <label >nom</label>
+        <input type="text" name="f_name"><br>
+        <label >prenom</label>
+        <input type="text" name="l_name"><br>
+        <label >sexe</label>
+        <select name="sex" >
+            <option value="male">homme</option>
+            <option value="female">femme</option>
+        </select><br>
+        <label >groupe sanguin</label>
+        <select name="blood_type" >
+             <option value="o-">O-</option>
+             <option value="o+">O+</option>
+             <option value="a-">A-</option>
+             <option value="a+">A+</option>
+             <option value="b-">B-</option>
+             <option value="b+">B+</option>
+            <option value="ab-">AB-</option>
+            <option value="ab+">AB+</option>
+        </select><br>
+        <label >email</label>
+        <input type="email" name="email"><br>
+        <label >phone</label>
+        <input type="tel" name="phone"><br>
+        <label >date de naissance</label>
+        <input type="date" name="birthdate"><br>
+        <label >address</label>
+        <textarea name="address"  cols="30" rows="10"></textarea><br>
+<input type="submit">
+    </form>
+</body>
+</html>

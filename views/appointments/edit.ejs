@@ -1,0 +1,59 @@
+
+<%
+const dateFormat = (dateString)=>{
+    var date = new Date(dateString);
+  const month = date.getMonth()<10 ? 0+(date.getMonth()+1).toString(): date.getMonth()+1 ;
+  const day   = date.getDate()<10 ? 0+ date.getDate().toString(): date.getDate() ;
+  
+   date = date.getFullYear()+"-"+month+"-"+day;
+return date;
+}
+
+
+const check_selected = (option_value, correct_value)=>{
+    if(option_value == correct_value){%>selected<%}}
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   
+    <form action="/appointments/<%=appointment.code%>" method="post">
+        <label for=""></label>
+        <select name="code_patient" >
+            <% patients.forEach((patient)=>{%>
+                <option value="<%=patient.code%>" <%check_selected(patient.code,appointment.patient_code)%> ><%=patient.l_name+" "+patient.f_name%></option>
+           <% });%>
+        </select>
+        <br>
+        <label for="">date</label>
+        <input type="date" name="due" value="<%=dateFormat(appointment.due)%>"><br>
+        <label for="">time</label>
+        <select name="start_at" id="">
+            <option value="9:00"  <%check_selected("9:00:00",appointment.start_at)%> >9:00  </option>
+            <option value="9:30"  <%check_selected("9:30:00",appointment.start_at)%> >9:30 </option>
+            <option value="10:00"  <%check_selected("10:00:00",appointment.start_at)%> >10:00</option>
+            <option value="10:30"  <%check_selected("10:30:00",appointment.start_at)%> >10:30</option>
+            <option value="11:00"  <%check_selected("11:00:00",appointment.start_at)%> >11:00</option>
+            <option value="11:30"  <%check_selected("11:30:00",appointment.start_at)%> >11:30</option>
+            <option value="12:00"  <%check_selected("12:00:00",appointment.start_at)%> >12:00</option>
+            <option value="13:30"  <%check_selected("13:30:00",appointment.start_at)%> >13:30</option>
+            <option value="14:00"  <%check_selected("14:00:00",appointment.start_at)%> >14:00</option>
+            <option value="14:30"  <%check_selected("14:30:00",appointment.start_at)%> >14:30</option>
+            <option value="15:00"  <%check_selected("15:00:00",appointment.start_at)%> >15:00</option>
+            <option value="15:30"  <%check_selected("15:30:00",appointment.start_at)%> >15:30</option>
+            <option value="16:00"  <%check_selected("16:00:00",appointment.start_at)%> >16:00</option>
+        </select>
+        <br>
+      
+        <label for="">details</label>
+        <textarea name="details" id="" cols="30" rows="10"><%=appointment.details%></textarea>
+        <input type="submit">
+    </form>
+</body>
+</html>

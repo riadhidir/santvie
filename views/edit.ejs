@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+      <%- include('partials/head')%>
+    
+  <%
+  const dateFormat = (dateString)=>{
+    var date = new Date(dateString);
+  const month = date.getMonth()<10 ? 0+(date.getMonth()+1).toString(): date.getMonth()+1 ;
+  const day   = date.getDate()<10 ? 0+ date.getDate().toString(): date.getDate() ;
+  
+   date = date.getFullYear()+"-"+month+"-"+day;
+return date;
+}
+ 
+  const check_selected = (option_value, correct_value)=>{
+    if(option_value == correct_value){%>selected<%}}
+    %>
+<body>
+    <form action="/patients/<%=patient.code%>" method="POST">
+        <label >nom</label>
+        <input type="text" name="f_name" value="<%=patient.l_name%>"><br>
+        <label >prenom</label>
+        <input type="text" name="l_name" value="<%=patient.f_name%>"><br>
+        <label >sexe</label>
+        <select name="sex" >
+            <option value="male"   <% check_selected("male",patient.sex)%>  >Homme</option>
+            <option value="female" <% check_selected("female",patient.sex)%>>Femme</option>
+        </select><br>
+        <label >groupe sanguin</label>
+        <select name="blood_type" >
+             <option value="o-" <% check_selected("o-",patient.blood_type)%> >O-</option>
+             <option value="o+" <% check_selected("o+",patient.blood_type)%> >O+</option>
+             <option value="a-" <% check_selected("a-",patient.blood_type)%> >A-</option>
+             <option value="a+" <% check_selected("a+",patient.blood_type)%> >A+</option>
+             <option value="b-" <% check_selected("b-",patient.blood_type)%> >B-</option>
+             <option value="b+" <% check_selected("b+",patient.blood_type)%> >B+</option>
+            <option value="ab-" <% check_selected("ab-",patient.blood_type)%> >AB-</option>
+            <option value="ab+" <% check_selected("ab+",patient.blood_type)%> >AB+</option>
+        </select>
+        <br>
+        <label >email</label>
+        <input type="email" name="email" value="<%=patient.email%>"><br>
+        <label >phone</label>
+        <input type="tel" name="phone" value="<%=patient.phone%>"><br>
+        <label >date de naissance</label>
+        <input type="date" name="birthdate" value="<%=dateFormat(patient.birthdate)%>"><br>
+        <label >address</label>
+        <textarea name="address"  cols="30" rows="10"><%=patient.address%></textarea><br>
+<input type="submit">
+    </form>
+</body>
+</html>

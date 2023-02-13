@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/style.css">
+</head>
+<body>
+  
+    
+    <form action="/patients" method="POST">
+        <label >nom</label>
+        <input type="text" name="f_name"><br>
+        <label >prenom</label>
+        <input type="text" name="l_name"><br>
+        <label >sexe</label>
+        <select name="sex" >
+            <option value="male">homme</option>
+            <option value="female">femme</option>
+
+        </select><br>
+        <label >email</label>
+        <input type="email" name="email"><br>
+        <label >phone</label>
+        <input type="tel" name="phone"><br>
+        <label >date de naissance</label>
+        <input type="date" name="birthdate"><br>
+        <label >address</label>
+        <textarea name="address"  cols="30" rows="10"></textarea><br>
+<input type="submit">
+    </form>
+</body>
+</html>

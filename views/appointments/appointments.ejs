@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head')%>
+    <% const dateFormat=(dateString)=>{ var date
+        = new Date(dateString); const month = date.getMonth()<10 ? 0+(date.getMonth()+1).toString(): date.getMonth()+1 ;
+            const day=date.getDate()<10 ? 0+ date.getDate().toString(): date.getDate() ;
+            date=date.getFullYear()+"-"+month+"-"+day; return date; }%>
+
+            <body>
+                <div class="sideNav">
+                    <button id="sb_toggle"><i class="fa-solid fa-arrow-left"></i></button>
+
+                    <div class="logo">
+                        <h1>Santévie</h1>
+                    </div>
+                    <div class="nav-links">
+                        <div class="link">
+                            <a href="/dashboard"><i class="fa-solid fa-chart-pie fa-fw fa-2xl"></i><span>
+                                    Dashboard</span></a>
+                        </div>
+                        <div class="link">
+                            <a href="/patients" class="activelink"><i class="fa-solid fa-users fa-fw fa-2xl"></i>
+                                <span>Patients</span></a>
+                        </div>
+                        <div class="link">
+                            <a href="/appointments"><i
+                                    class="fa-regular fa-calendar-days fa-fw fa-2xl"></i><span>Rendez_vous</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-frame2">
+                    <button type="button" class="btn btn-primary d-flex align-self-end" data-bs-toggle="modal"
+                        data-bs-target="#addModal">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <table class="styled-table w-100">
+                        <thead>
+                            <tr>
+                                <th>patient</th>
+
+                                <th>details</th>
+                                <th>due</th>
+                                <th>time</th>
+                                <th>delete</th>
+                             
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% appointments.forEach((app)=>{%>
+                                <tr>
+                                    <td>
+                                        <%=app.l_name +" "+app.f_name%>
+                                    </td>
+
+                                    <td>
+                                        <%=app.details%>
+                                    </td>
+                                    <td>
+                                        <%=dateFormat(app.due)%>
+                                    </td>
+                                    <td>
+                                        <%=app.start_at%>
+                                    </td>
+                                    <td>
+                                        <form action="/appointments/<%=app.code%>/delete" method="post">
+                                            <input class="btn btn-danger" type="submit" value="delete" />
+                                        </form>
+                                    </td>
+                                    
+                                </tr>
+                                <% });%>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Ajouter un RDV</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" action="/appointments" method="post">
+                                    <div class="col-md-12">
+                                        <label for="inputEmail4" class="form-label">Patient:</label>
+                                        <select class="form-select" aria-label="Default select example" name="code_patient">
+                                            <option selected disabled>patient..</option>
+                                                <% patients.forEach((patient)=>{%>
+                                                    <option value="<%= patient.code%>"><%= patient.l_name +" "+patient.f_name%></option>
+                                               <% });%>
+                                        
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Date</label>
+                                        <input class="form-control" type="date" id="due" name="due">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Time</label>
+                                        <select class="form-select" aria-label="Default select example" id="startTime" name="start_at" disabled>
+                                            <option selected disabled>start time</option>
+                                            <option value="09:00">9:00</option>
+                                            <option value="09:30">9:30</option>
+                                            <option value="10:00">10:00</option>
+                                            <option value="10:30">10:30</option>
+                                            <option value="11:00">11:00</option>
+                                            <option value="11:30">11:30</option>
+                                            <option value="12:00">12:00</option>
+                                            <option value="13:30">13:30</option>
+                                            <option value="14:00">14:00</option>
+                                            <option value="14:30">14:30</option>
+                                            <option value="15:00">15:00</option>
+                                            <option value="15:30">15:30</option>
+                                            <option value="16:00">16:00</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="inputAddress" class="form-label">Details</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" name="details"
+                                            rows="3"></textarea>
+                                    </div>
+
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <input type="submit" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modifier un RDV</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" action="/appointments" method="post">
+                                    <div class="col-md-12">
+                                        <label for="inputEmail4" class="form-label">Patient:</label>
+                                        <select class="form-select" aria-label="Default select example" name="code_patient" id="code_patient">
+                                            <option selected disabled>patient..</option>
+                                                <% patients.forEach((patient)=>{%>
+                                                    <option value="<%= patient.code%>"><%= patient.l_name +" "+patient.f_name%></option>
+                                               <% });%>
+                                        
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Date</label>
+                                        <input class="form-control" type="date" id="due2" name="due2">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label">Time</label>
+                                        <select class="form-select" aria-label="Default select example" id="startTime2" name="start_at" disabled>
+                                            <option selected disabled>start time</option>
+                                            <option value="09:00">9:00</option>
+                                            <option value="09:30">9:30</option>
+                                            <option value="10:00">10:00</option>
+                                            <option value="10:30">10:30</option>
+                                            <option value="11:00">11:00</option>
+                                            <option value="11:30">11:30</option>
+                                            <option value="12:00">12:00</option>
+                                            <option value="13:30">13:30</option>
+                                            <option value="14:00">14:00</option>
+                                            <option value="14:30">14:30</option>
+                                            <option value="15:00">15:00</option>
+                                            <option value="15:30">15:30</option>
+                                            <option value="16:00">16:00</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="inputAddress" class="form-label">Details</label>
+                                        <textarea class="form-control" id="details2" name="details"
+                                            rows="3"></textarea>
+                                    </div>
+
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <input type="submit" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <script src="https://kit.fontawesome.com/c501080d7e.js" crossorigin="anonymous"></script>
+                <script
+                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    const toggle_button = document.getElementById("sb_toggle");
+                    toggle_button.addEventListener("click", () => {
+                        toggle_button.children[0].classList.contains("fa-arrow-right")
+                            ? toggle_button.children[0].classList.add("fa-arrow-left")
+                            : toggle_button.children[0].classList.add("fa-arrow-right");
+
+                        const links = document.querySelectorAll(".link a span");
+                        const navbar = document.querySelector(".sideNav");
+                        const logo = document.querySelector(".logo");
+                        links.forEach((link) => {
+                            link.classList.toggle("shortlink");
+                        });
+                        navbar.classList.toggle("shortnav");
+                        logo.classList.toggle("shortlogo");
+                    });
+                </script>
+                <script>
+      const date = document.getElementById("due");
+      const time = document.getElementById("startTime");
+      date.addEventListener("input", () => {
+        time.disabled = false;
+        
+        let response = fetch("/appointments/free/" + date.value)
+          .then((response) => response.json())
+          .then((data) => {
+            const _data = [];
+            data[0].forEach((element) => {
+              _data.push(element.start_at);
+            });
+            console.log(_data);
+            for (let index = 0; index < time.children.length; index++) {
+              if (_data.includes(time.children[index].value + ":00")) {
+                console.log(time.children[index].value);
+
+                time.children[index].disabled = true;
+              }
+            }
+
+          });
+      });
+
+      const getapp = (id)=>{
+        let response = fetch(`/appointments/${id}/edit`)
+          .then((response) => response.json())
+          .then((data) => {
+            const patient = document.getElementById('code_patient');
+            const date = document.getElementById('due2');
+            const time = document.getElementById('startTime2');
+            const detail = document.getElementById('details2');
+
+            
+            patient.forEach((p)=>{
+                p.value = data.appointment.code_patient ? p.selected=true : '';
+            })
+            // console.log(data.appointment);
+            
+
+
+
+
+
+
+          });
+      }
+    </script>
+            </body>
+
+</html>

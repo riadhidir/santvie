@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../Style2.min.css" />
+    <title>Document</title>
+</head>
+<% function calculate_age(dob) { 
+    var diff_ms=Date.now() - dob.getTime(); 
+    var age_dt=new Date(diff_ms); return
+    Math.abs(age_dt.getUTCFullYear() - 1970); 
+} 
+    const dateFormat=(dateString)=>{
+    var date = new Date(dateString);
+    const month = date.getMonth()<10 ? 0+(date.getMonth()+1).toString(): date.getMonth()+1 ;
+     const day=date.getDate()<10 ? 0+ date.getDate().toString(): date.getDate() ; 
+     date=date.getFullYear()+"-"+month+"-"+day; return date; }
+      const check_selected=(option_value, correct_value)=>{
+        if(option_value == correct_value){%>selected<%}}%>
+
+            <body>
+                <div class="sideNav">
+                    <button id="sb_toggle"><i class="fa-solid fa-arrow-left"></i></button>
+
+                    <div class="logo">
+                        <h1>Santévie</h1>
+                    </div>
+                    <div class="nav-links">
+                        <div class="link">
+                            <a href="/dashboard"><i class="fa-solid fa-chart-pie fa-fw fa-2xl"></i><span>
+                                    Dashboard</span></a>
+                        </div>
+                        <div class="link">
+                            <a href="/patients" class="activelink"><i class="fa-solid fa-users fa-fw fa-2xl"></i>
+                                <span>Patients</span></a>
+                        </div>
+                        <div class="link">
+                            <a href="/appointments"><i
+                                    class="fa-regular fa-calendar-days fa-fw fa-2xl"></i><span>Rendez_vous</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-frame">
+                    <div class="patients-list">
+                    
+
+                        <div class="header">
+                            <h1>Patients</h1>
+                            <a href="/patients/create" id="addP"><i class="fa-solid fa-plus"></i></a>
+                        </div>
+                        <form action="/patients/search" method="get" class="search-input">
+                            <input type="text" name="request" />
+                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                        </form>
+
+                        <% patients.forEach((patient)=>{%>
+                            <a href="/patients/<%= patient.code%>">
+                                <div class="patient">
+                                   
+                                    <div class="info">
+                                        <h3>
+                                            <%= patient.l_name +" "+ patient.f_name%></h3>
+                    <h4><%= calculate_age(new Date(patient.birthdate))%> ans</h4>
+                </div>
+            </div></a>
+           <% });%>
+           
+        </div>
+        <div class=" patient-profile">
+            <div class="settings">
+                
+                                                    <a href="/patients/id/appointments"><i
+                                                            class="fa-regular fa-calendar-days fa-fw fa-2xl"></i></a>
+                                                    <a role="button" id="edit-button"><i
+                                                            class="fa-regular fa-pen-to-square fa-fw fa-2xl"></i></a>
+                                                    <form action="/patients/<%=f_patient.code%>/delete" method="post">
+                                                        <input type="submit" value="Delete" />
+                                                    </form>
+                                                </div>
+                                                <div class="details">
+                                                    <h1 class="header">Personal Information</h1>
+<form action="/patients/<%=f_patient.code%>" method="post">
+                                                    <div class="grid-container">
+                                                        <div class="grid-item">
+                                                            <label for="l_name">Nom:</label>
+                                                            <input type="text" value="<%=f_patient.l_name%>" name="l_name" id="l_name" required disabled>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label for="f_name">Prenom:</label>
+                                                            <input type="text" value="<%=f_patient.f_name%>" name="f_name" id="f_name" required disabled>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label for="birthdate">Date de naissance:</label>
+                                                            <input type="date" 
+                                                                value="<%=dateFormat(f_patient.birthdate)%>" required disabled id="birthdate" name="birthdate">
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label for="sex">Sexe:</label>
+                                                            <select name="sex" id="sex" required disabled>
+                                                                <option value="male" <%
+                                                                    check_selected("male",f_patient.sex)%> >Homme
+                                                                </option>
+                                                                <option value="female" <%
+                                                                    check_selected("female",f_patient.sex)%>>Femme
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label for="address">Adresse:</label>
+                                                            <textarea name="address" id="address" cols="30"
+                                                                rows="2" required disabled><%=f_patient.address%></textarea>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label for="blood_type">Groupe sanguin:</label>
+                                                            <select name="blood_type" id="blood_type" required disabled>
+                                                                <option value="o-" <%
+                                                                    check_selected("o-",f_patient.blood_type)%> >O-
+                                                                </option>
+                                                                <option value="o+" <%
+                                                                    check_selected("o+",f_patient.blood_type)%> >O+
+                                                                </option>
+                                                                <option value="a-" <%
+                                                                    check_selected("a-",f_patient.blood_type)%> >A-
+                                                                </option>
+                                                                <option value="a+" <%
+                                                                    check_selected("a+",f_patient.blood_type)%> >A+
+                                                                </option>
+                                                                <option value="b-" <%
+                                                                    check_selected("b-",f_patient.blood_type)%> >B-
+                                                                </option>
+                                                                <option value="b+" <%
+                                                                    check_selected("b+",f_patient.blood_type)%> >B+
+                                                                </option>
+                                                                <option value="ab-" <%
+                                                                    check_selected("ab-",f_patient.blood_type)%> >AB-
+                                                                </option>
+                                                                <option value="ab+" <%
+                                                                    check_selected("ab+",f_patient.blood_type)%> >AB+
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label for="phone">Telephone:</label>
+                                                            <input type="tel" value="<%=f_patient.phone%>" name="phone" id="phone" required disabled>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label for="email">Email:</label>
+                                                            <input type="email" value="<%=f_patient.email%>" name="email" id="email" required disabled>
+                                                        </div>
+
+                                                    </div>
+                                                    <input type="submit" value="modifier" id="submit-edit">
+</form> 
+
+                                                </div>
+                                    </div>
+                                </div>
+
+                                <script src="https://kit.fontawesome.com/c501080d7e.js"
+                                    crossorigin="anonymous"></script>
+                                <script>
+                                    const toggle_button = document.getElementById("sb_toggle");
+                                    toggle_button.addEventListener("click", () => {
+                                        toggle_button.children[0].classList.contains("fa-arrow-right")
+                                            ? toggle_button.children[0].classList.add("fa-arrow-left")
+                                            : toggle_button.children[0].classList.add("fa-arrow-right");
+
+                                        const links = document.querySelectorAll(".link a span");
+                                        const navbar = document.querySelector(".sideNav");
+                                        links.forEach((link) => {
+                                            link.classList.toggle("shortlink");
+                                        });
+                                        navbar.classList.toggle("shortnav");
+                                    });
+                                    const inputs =['l_name','f_name','sex','email','birthdate','address','blood_type','phone'];
+                                    const editbtn = document.getElementById('edit-button');
+
+                                    editbtn.addEventListener('click',()=>{
+                                        inputs.forEach((input)=>{
+                                            document.getElementById(input).disabled=false;
+                                        });
+                                        document.getElementById('submit-edit').style.display='block';
+                                    });
+
+                                </script>
+            </body>
+
+</html>

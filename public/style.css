@@ -1,0 +1,116 @@
+*{
+    padding: 0;
+    margin:0;
+    box-sizing: border-box;
+}
+ul{
+    list-style-type: none;
+}
+a{
+    text-decoration: none;
+    color:white;
+}
+body{
+    padding:1%;
+    height: 100vh;
+    background-color: white;
+}
+.sidebar{
+    position: fixed;
+    top:0;
+    left:0;
+    overflow-x: hidden;
+    display: inline-block;
+    width: auto;
+    height: 100%;
+    background-color: #1f1c2f;
+    border-radius: 15px;
+
+}
+#sb_toggle{
+    position: absolute;
+    right: 0;
+    transform: translateX(50%);
+    top:10%;
+}
+.view-window{
+    
+    display: inline-block;
+    width :85%;
+    height: 100%;
+    background-color: white;
+    float:right;
+}
+
+.sidebar .logo{
+    height: 20%;
+    display: grid;
+    place-items: center;
+    color: white;
+    /* background-color: purple; */
+    font-size: 200%;
+}
+
+.sidebar .links li{
+    margin: 30px;
+    font-size: 18px;
+    vertical-align: middle;
+}
+.sidebar .links li a svg{
+    margin-right: 20px;
+    color:white !important;
+}
+
+
+/* patients page */
+.patient-list{
+    display: inline-block;
+   padding: 10px;
+    width:30%;
+    height:100%;
+    background-color: red;
+    overflow-y: auto;
+
+}
+
+.patient{
+    border:2px solid black;
+    margin-block: 10px;
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    height: 15%;
+    background-color: green;
+}
+.patient .picture{
+    width:25%;
+    height: 100%;
+    background-color: white;
+    clip-path: circle();
+}
+
+.patient .info{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: pink;
+}
+
+.patient .info .name{
+background-color: aqua;
+height: 50%;
+}
+
+.patient .info .last-appt{
+background-color: black;
+height: 50%;
+}
+
+.patient-profile{
+ display: inline-block;
+    width:70%;
+    height: 100%;
+    background-color: gainsboro;
+    float: right;
+}
